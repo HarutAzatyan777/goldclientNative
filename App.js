@@ -1,47 +1,19 @@
 // App.js
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { getGoldPrices } from './src/utils/api';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import GoldPriceScreen from './src/screens/GoldPriceScreen';
 
-export default function App() {
-  const [goldPrices, setGoldPrices] = useState(null);
+const Stack = createNativeStackNavigator();
 
-  useEffect(() => {
-    const fetchGoldPrices = async () => {
-      try {
-        const data = await getGoldPrices();
-        setGoldPrices(data);
-      } catch (error) {
-        console.error('Error fetching gold prices:', error.message);
-      }
-    };
-
-    fetchGoldPrices();
-  }, []);
-
+const App = () => {
   return (
-    <View style={styles.container}>
-      {goldPrices ? (
-        <View>
-          <Text>Gold Price App</Text>
-          <Text>Silver Rate: ${goldPrices.silverRate} per gram</Text>
-          <Text>Gold Rate: ${goldPrices.goldRate} per gram</Text>
-          <Text>Palladium Rate: ${goldPrices.palladiumRate} per gram</Text>
-          <Text>Platinum Rate: ${goldPrices.platinumRate} per gram</Text>
-          <Text>Rhodium Rate: ${goldPrices.rhodiumRate} per gram</Text>
-        </View>
-      ) : (
-        <Text>Loading...</Text>
-      )}
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="GoldPrices" component={GoldPriceScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
